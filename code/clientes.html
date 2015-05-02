@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html  ng-app="clientes">
+	<head>
+		<meta charset="UTF-8">
+		<title>Clientes</title>
+
+		<link rel="stylesheet" href="estilos/jquery-ui-1.10.3.custom.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+		<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-strap.js"></script>
+		<script src="js/clientes.js"></script>
+
+		<script>
+
+			var direccion = "asc";
+			var orden = "id";
+
+			//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			function cambiarOrden(nuevoOrden){
+
+				if(orden == nuevoOrden){
+					if(direccion == "asc")
+						direccion = "desc";
+					else
+						direccion = "asc";
+				}
+				else{
+					orden = nuevoOrden;
+					direccion = "desc";
+				}
+				$("#formPrincipal").trigger("submit");
+			}
+			//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			$(function(){
+
+				$("#codigo").click( function(){cambiarOrden("clientes.id");} );
+				$("#apellido").click( function(){cambiarOrden("apellido");} );
+				$("#nombre").click( function(){cambiarOrden("nombre");} );
+				$("#documento").click( function(){cambiarOrden("doc_numero");} );
+				$("#telefono").click( function(){cambiarOrden("telefono");} );
+				$("#email").click( function(){cambiarOrden("email");} );
+
+			});
+		</script>
+
+		<style>
+
+				
+			#buscador table tr td{
+				/*display: inline-block;*/
+				padding-top:  5px;
+				padding-bottom: 5px;
+			}
+
+			.manito{
+				cursor: pointer;
+			}
+			
+			.derecha{
+				text-align: right;
+			}
+
+			.flotante{
+				float: right;
+			}
+
+			.cuerpo{
+				margin-top: 10px;
+			}
+			/*------------------------------------------------------------------------------------------Titulo----------------------------------------------------------------------------------*/
+			h4{
+				margin-top: 0px;
+				margin-bottom: 0px;
+				text-align: center;
+			}
+
+			td{
+				text-align: center;
+			}
+			th{
+				text-align: center;
+			}
+
+			#lista thead tr th{
+				text-decoration: none;
+				background-color:#f5f5f5;
+				cursor: pointer;
+				border-top:0px solid #ddd;
+				border-bottom-right-radius:3px;
+				border-bottom-left-radius:3px;
+				padding-top: 5px;
+				padding-bottom: 0px;
+			}
+
+			#lista tbody td{
+				cursor: pointer;
+				padding-bottom: 4px;
+				padding-top: 4px;
+			}
+
+			#lista tbody tr:nth-child(2n){
+				background: whitesmoke;
+			}
+
+			#lista thead tr a{
+				font-weight: 500;
+				text-decoration: none;
+			}
+
+			table#lista tbody tr:hover{
+				background-color:  #ececed;
+			}
+
+			.scroll{		
+				height:370px;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				margin-bottom: 10px;
+
+				border-color: #ddd;
+				border-style: solid;
+				border-width: 1px;
+			}
+	</style>
+
+	</head>
+
+	<body ng-controller="controlador" ng-init="init()">
+
+		<div class="container">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
+					<h4>Planificar Receta</h4>
+				</div>
+
+				<div class="panel-footer">
+					<div id="buscador">
+						<table border="0">
+							<tr>
+								<td width="150"></td>
+								
+								<td width="600" ></td>
+
+								<td width="250" class="derecha">
+									<div class="input-group">
+										<span class="input-group-addon derecha">Nombre:</span>
+										<input class="form-control manito" type="text" ng-model="buscar.id">
+									</div>
+								</td>
+
+								<td width="100" class="derecha">
+									<input  type="button" value="buscar" class="btn btn-info btn-lg manito" ng-click="clientes_buscar()">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="cuerpo">
+				<div class="scroll" ng-show="recetas.length != 0">
+					<table  id="lista" class="table  table-bordered">
+						<thead>
+
+							<tr>
+								<th id="codigo" ><p><a href="#">Receta</a></p></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr class="manito" ng-repeat="receta in recetas"  ng-class="{'success':opcion.fila_activa==$index}" ng-click="seleccionar($index)">
+								<td class="centrado">{{ receta.nombre}}</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+
+				<div class="flotante">
+						<input id="agregar" type="button" class="btn btn-info" value= "Agregar"  ng-click="cliente_modal(1);">
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
