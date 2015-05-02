@@ -13,25 +13,40 @@
 $(document).ready(function(){
     $("#btnAgregar").click(function()
 	{
-	var unaComida = "<div><li>"+$(".comida:checked").val()+"</li> <button id='btnEliminar' type='button' class='btn btn-danger'>Eliminar</button></div>" ;
-	if (typeof unaComida !== "undefined")
+	var arrayComidas = $(".comida:checked").toArray();
+	var longitudArray = arrayComidas.length;
+	for(i=0;i<longitudArray;i++){
+	var valorComida = arrayComidas[i].value;
+	var unaComida = "<li class='"+valorComida+"'>"+valorComida+"<button id='btnEliminar' type='button' class='btn btn-danger'>Eliminar</button></li>" ;
+	if (typeof valorComida !== "undefined")
 	{
+	
 		if ($("#checkboxDesayuno").is(":Checked")) 
-		{		  
-		  $("#listaDesayuno").append(unaComida);				  
+		{	
+		  if(!($("#listaDesayuno li").hasClass(valorComida))){
+		  $("#listaDesayuno").append(unaComida);
+		  }
 		}
 		if ($("#checkboxAlmuerzo").is(":Checked")) 
-		{		
-		  $("#listaAlmuerzo").append(unaComida);		
+		{
+		if(!($("#listaAlmuerzo li").hasClass(valorComida))){
+		  $("#listaAlmuerzo").append(unaComida);
+		}
 		}
 		if ($("#checkboxMerienda").is(":Checked")) 
-		{				
-		  $("#listaMerienda").append(unaComida);		
+		{	
+		if(!($("#listaMerienda li").hasClass(valorComida))){
+		  $("#listaMerienda").append(unaComida);
+		  }
 		}
 		if ($("#checkboxCena").is(":Checked")) 
-		{				
-		  $("#listaCena").append(unaComida);				
+		{
+			if(!($("#listaDesayuno li").hasClass(valorComida)))
+			{		
+				$("#listaCena").append(unaComida);
+			}
 		}
+	}
 	}
 	});
     });	
