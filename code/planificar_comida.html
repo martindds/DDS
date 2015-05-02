@@ -3,7 +3,7 @@
 <html  ng-app="clientes">
 	<head>
 		<meta charset="UTF-8">
-		<title>Clientes</title>
+		<title>planificar comida</title>
 
 		<link rel="stylesheet" href="estilos/jquery-ui-1.10.3.custom.css" />
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -16,7 +16,7 @@
 
 		<script src="js/angular.min.js"></script>
 		<script src="js/angular-strap.js"></script>
-		<script src="js/clientes.js"></script>
+		<script src="js/planificar_comida.js"></script>
 
 		<script>
 
@@ -42,12 +42,7 @@
 
 			$(function(){
 
-				$("#codigo").click( function(){cambiarOrden("clientes.id");} );
-				$("#apellido").click( function(){cambiarOrden("apellido");} );
-				$("#nombre").click( function(){cambiarOrden("nombre");} );
-				$("#documento").click( function(){cambiarOrden("doc_numero");} );
-				$("#telefono").click( function(){cambiarOrden("telefono");} );
-				$("#email").click( function(){cambiarOrden("email");} );
+				$("#nombre").click( function(){cambiarOrden("clientes.id");} );
 
 			});
 		</script>
@@ -69,8 +64,13 @@
 				text-align: right;
 			}
 
+			.izquierda{
+				text-align: left;
+			}			
+
 			.flotante{
 				float: right;
+				height:60px;
 			}
 
 			.cuerpo{
@@ -121,7 +121,7 @@
 			}
 
 			.scroll{		
-				height:370px;
+				height:250px;
 				overflow-y: scroll;
 				overflow-x: hidden;
 				margin-bottom: 10px;
@@ -140,7 +140,7 @@
 			<div class="panel panel-default">
 
 				<div class="panel-heading">
-					<h4>Planificar Receta</h4>
+					<h4>Planificar Comida</h4>
 				</div>
 
 				<div class="panel-footer">
@@ -154,7 +154,7 @@
 								<td width="250" class="derecha">
 									<div class="input-group">
 										<span class="input-group-addon derecha">Nombre:</span>
-										<input class="form-control manito" type="text" ng-model="buscar.id">
+										<input class="form-control manito" type="text" ng-model="buscar.nombre">
 									</div>
 								</td>
 
@@ -171,26 +171,70 @@
 				<div class="scroll" ng-show="recetas.length != 0">
 					<table  id="lista" class="table  table-bordered">
 						<thead>
-
 							<tr>
-								<th id="codigo" ><p><a href="#">Receta</a></p></th>
+								<th id="nombre" ><p><a href="#">Recetas</a></p></th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr class="manito" ng-repeat="receta in recetas"  ng-class="{'success':opcion.fila_activa==$index}" ng-click="seleccionar($index)">
-								<td class="centrado">{{ receta.nombre}}</td>
-							</tr>
+							<tr class="manito" ng-repeat="receta in recetas | filter:buscar.nombre"  
+							ng-class="{'success':opcion.receta_activa==$index}" 
+							ng-click="seleccionar_receta($index,receta.id)">
+								<td class="centrado">{{receta.id}}</td>
+								<td class="centrado">{{receta.nombre}}</td>
+							</tr>							
 						</tbody>
 
 					</table>
 				</div>
 
 				<div class="flotante">
-						<input id="agregar" type="button" class="btn btn-info" value= "Agregar"  ng-click="cliente_modal(1);">
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.desayuno" > Desayuno
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.almuerzo" > Almuerzo
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.merienda" > Merienda
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.cena"> Cena
+					</label>
+					<input id="agregar" type="button" class="btn btn-info" value= "Agregar"  
+						ng-click="agregar_comida();"
+						ng-disabled="opcion.receta_activa == -1">
 				</div>
 			</div>
+		</div>
+		
+		<div class="container">
+			<div class="cuerpo">
+				<table  id="lista" class="table  table-bordered">
+					<thead>
+						<tr>
+							<th id="comidas" ><p><a href="#">Comida</a></p></th>
+							<th id="comidas" ><p><a href="#">Receta elegida</a></p></th>
+						</tr>
+					</thead>
 
+					<tbody>
+						<tr class="manito" ng-repeat="comida in comidas"  
+						ng-class="{'success':opcion.comida_activa==$index}" 
+						ng-click="seleccionar_comida($index)">
+							<td >{{comida.nombre}}</td>
+							<td >{{comida.receta}}</td>
+						</tr>							
+					</tbody>
+
+				</table>
+
+				<div class="flotante">
+					<input id="descartar" type="button" class="btn btn-info" value= "Descartar"  
+						ng-click="quitar_comida();"
+						ng-disabled="opcion.comida_activa == -1">
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
