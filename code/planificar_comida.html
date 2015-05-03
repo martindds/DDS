@@ -5,48 +5,13 @@
 		<meta charset="UTF-8">
 		<title>planificar comida</title>
 
-		<link rel="stylesheet" href="estilos/jquery-ui-1.10.3.custom.css" />
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
-		<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
-		<script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
-		<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-
 		<script src="js/angular.min.js"></script>
 		<script src="js/angular-strap.js"></script>
 		<script src="js/planificar_comida.js"></script>
-
-		<script>
-
-			var direccion = "asc";
-			var orden = "id";
-
-			//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			function cambiarOrden(nuevoOrden){
-
-				if(orden == nuevoOrden){
-					if(direccion == "asc")
-						direccion = "desc";
-					else
-						direccion = "asc";
-				}
-				else{
-					orden = nuevoOrden;
-					direccion = "desc";
-				}
-				$("#formPrincipal").trigger("submit");
-			}
-			//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-			$(function(){
-
-				$("#nombre").click( function(){cambiarOrden("clientes.id");} );
-
-			});
-		</script>
-
 		<style>
 
 				
@@ -135,10 +100,8 @@
 	</head>
 
 	<body ng-controller="controlador" ng-init="init()">
-
 		<div class="container">
 			<div class="panel panel-default">
-
 				<div class="panel-heading">
 					<h4>Planificar Comida</h4>
 				</div>
