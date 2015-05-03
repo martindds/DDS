@@ -10,7 +10,8 @@ app.controller('controlador', function($scope, $http){
 	$scope.opcion = {
 		receta_activa : -1,
 		receta_seleccionada : -1,
-		comida_activa : -1
+		comida_activa : -1,
+		comida_seleccionada : -1
 	};
 
 	$scope.comida_tipo_seleccionadas = {
@@ -78,22 +79,29 @@ app.controller('controlador', function($scope, $http){
 
 	};
 
-	$scope.seleccionar_comida = function(index){
+	$scope.seleccionar_comida = function(index,comida_id){
 		$scope.opcion.comida_activa	= index;
+		$scope.opcion.comida_seleccionada	= comida_id;
 	};
 
 	$scope.agregar_comida = function(){
 
-		var arr = [];
-		arr[1] = 'chau';
-		arr[2] = 'hola';
-		 
-		for (var ele in arr) {
-		    alert(ele);
-		}
-return;
-		var receta_seleccionada_id = $scope.opcion.receta_seleccionada;
+		var receta_seleccionada_id = $scope.opcion.receta_seleccionada - 1;
 		var receta_seleccionada_nombre;
+
+
+		if ($scope.comida_tipo_seleccionadas.desayuno) {
+			$scope.comidas[0].receta = $scope.recetas[receta_seleccionada_id].nombre;
+		}
+		if ($scope.comida_tipo_seleccionadas.almuerzo) {
+			$scope.comidas[1].receta = $scope.recetas[receta_seleccionada_id].nombre;
+		}
+		if ($scope.comida_tipo_seleccionadas.merienda) {
+			$scope.comidas[2].receta = $scope.recetas[receta_seleccionada_id].nombre;
+		}
+		if ($scope.comida_tipo_seleccionadas.cena) {
+			$scope.comidas[3].receta = $scope.recetas[receta_seleccionada_id].nombre;
+		}
 
 		//reseteo el checkbox
 		$scope.comida_tipo_seleccionadas.desayuno = false;
@@ -101,29 +109,12 @@ return;
 		$scope.comida_tipo_seleccionadas.merienda = false;
 		$scope.comida_tipo_seleccionadas.cena = false;
 
-		//busco el indice del array donde se encentra el id seleccionado
-		for (var receta in $scope.recetas) {
-			alert(receta.id+"primera");
-		   if (receta.id == receta_seleccionada_id) {
-		   	alert(receta_seleccionada_id+"entre");
-		   		receta_seleccionada_nombre = receta.nombre;
-		   		break;
-		   }
-		}
-
-		if ($scope.comida_tipo_seleccionadas.desayuno) {
-
-			$scope.comidas[0].receta = receta_seleccionada_nombre;
-		}
-		if ($scope.comida_tipo_seleccionadas.almuerzo) {
-			$scope.comidas[1].receta = receta_seleccionada_nombre;
-		}
-		if ($scope.comida_tipo_seleccionadas.merienda) {
-			$scope.comidas[2].receta = receta_seleccionada_nombre;
-		}
-		if ($scope.comida_tipo_seleccionadas.cena) {
-			$scope.comidas[3].receta = receta_seleccionada_nombre;
-		}
-
 	};
+
+	$scope.quitar_comida = function() {
+
+		var receta_seleccionada_id = $scope.opcion.comida_seleccionada -1;
+
+		$scope.comidas[receta_seleccionada_id].receta = null;
+	}
 });
