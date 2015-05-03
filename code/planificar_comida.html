@@ -1,139 +1,239 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>planificar receta</title>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function(){
-    $("#btnAgregar").click(function()
-	{
-	var arrayComidas = $(".comida:checked").toArray();
-	var longitudArray = arrayComidas.length;
-	for(i=0;i<longitudArray;i++){
-	var valorComida = arrayComidas[i].value;
-	var unaComida = "<li class='"+valorComida+"'>"+valorComida+"<button id='btnEliminar' type='button' class='btn btn-danger'>Eliminar</button></li>" ;
-	if (typeof valorComida !== "undefined")
-	{
-	
-		if ($("#checkboxDesayuno").is(":Checked")) 
-		{	
-		  if(!($("#listaDesayuno li").hasClass(valorComida))){
-		  $("#listaDesayuno").append(unaComida);
-		  }
-		}
-		if ($("#checkboxAlmuerzo").is(":Checked")) 
-		{
-		if(!($("#listaAlmuerzo li").hasClass(valorComida))){
-		  $("#listaAlmuerzo").append(unaComida);
-		}
-		}
-		if ($("#checkboxMerienda").is(":Checked")) 
-		{	
-		if(!($("#listaMerienda li").hasClass(valorComida))){
-		  $("#listaMerienda").append(unaComida);
-		  }
-		}
-		if ($("#checkboxCena").is(":Checked")) 
-		{
-			if(!($("#listaDesayuno li").hasClass(valorComida)))
-			{		
-				$("#listaCena").append(unaComida);
+
+<html  ng-app="clientes">
+	<head>
+		<meta charset="UTF-8">
+		<title>planificar comida</title>
+
+		<link rel="stylesheet" href="estilos/jquery-ui-1.10.3.custom.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+		<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery-ui.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-strap.js"></script>
+		<script src="js/planificar_comida.js"></script>
+
+		<script>
+
+			var direccion = "asc";
+			var orden = "id";
+
+			//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			function cambiarOrden(nuevoOrden){
+
+				if(orden == nuevoOrden){
+					if(direccion == "asc")
+						direccion = "desc";
+					else
+						direccion = "asc";
+				}
+				else{
+					orden = nuevoOrden;
+					direccion = "desc";
+				}
+				$("#formPrincipal").trigger("submit");
 			}
-		}
-	}
-	}
-	});
-    });	
-</script>
-</head>
-<body>
-<div class="container text-center page-header">
-<h1>Planificación de comidas</h1>
-</div>
-<div class="container text-center">
-<div class="container text-center">
-<h2>Seleccionar una comida</h2>
-<ul id="listaComidas">
-    <li>
-	<label class="checkbox">
-		<input type="checkbox" class="comida" value="Carne"> Carne
-	</label>
-	</li>
-	<li>
-	<label class="checkbox">
-		<input type="checkbox" class="comida" value="Papas"> Papas
-	</label>
-	</li>
-	<li>
-	<label class="checkbox">
-		<input type="checkbox" class="comida" value="Calabazas"> Calabazas
-	</label>
-	</li>
-	<li>
-	<label class="checkbox">
-		<input type="checkbox" class="comida" value="Pollo"> Pollo
-	</label>
-	</li>
-</ul>
-</div>
-<form>
-<div class="form-group">
-<label class="checkbox-inline">
-  <input type="checkbox" id="checkboxDesayuno"> Desayuno
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="checkboxAlmuerzo"> Almuerzo
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="checkboxMerienda"> Merienda
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="checkboxCena"> Cena
-</label>
-</div>
-</form>
-<br>
-<button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
-</div>
-<hr>
-<div class="container">
-<h2>Comidas diarias</h2>
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#Desayuno">Desayuno</a></li>
-    <li><a data-toggle="tab" href="#Almuerzo">Almuerzo</a></li>
-    <li><a data-toggle="tab" href="#Merienda">Merienda</a></li>
-    <li><a data-toggle="tab" href="#Cena">Cena</a></li>
-</ul>
-<div class="tab-content">
-    <div id="Desayuno" class="tab-pane fade in active">     
-      <ul id="listaDesayuno">
-	  </ul>
-    </div>
-    <div id="Almuerzo" class="tab-pane fade">
-      <ul id="listaAlmuerzo">
-	  </ul>
-    </div>
-    <div id="Merienda" class="tab-pane fade">
-      <ul id="listaMerienda">
-	  </ul>
-    </div>
-    <div id="Cena" class="tab-pane fade">
-      <ul id="listaCena">
-	  </ul>
-    </div>
-  </div>
- </div>
- <script>
- $(document).on('click', '#btnEliminar', function() {
-  $(this).parent().remove();}
-  );
- 
- </script>
-</body>
+			//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			$(function(){
+
+				$("#nombre").click( function(){cambiarOrden("clientes.id");} );
+
+			});
+		</script>
+
+		<style>
+
+				
+			#buscador table tr td{
+				/*display: inline-block;*/
+				padding-top:  5px;
+				padding-bottom: 5px;
+			}
+
+			.manito{
+				cursor: pointer;
+			}
+			
+			.derecha{
+				text-align: right;
+			}
+
+			.izquierda{
+				text-align: left;
+			}			
+
+			.flotante{
+				float: right;
+				height:60px;
+			}
+
+			.cuerpo{
+				margin-top: 10px;
+			}
+			/*------------------------------------------------------------------------------------------Titulo----------------------------------------------------------------------------------*/
+			h4{
+				margin-top: 0px;
+				margin-bottom: 0px;
+				text-align: center;
+			}
+
+			td{
+				text-align: center;
+			}
+			th{
+				text-align: center;
+			}
+
+			#lista thead tr th{
+				text-decoration: none;
+				background-color:#f5f5f5;
+				cursor: pointer;
+				border-top:0px solid #ddd;
+				border-bottom-right-radius:3px;
+				border-bottom-left-radius:3px;
+				padding-top: 5px;
+				padding-bottom: 0px;
+			}
+
+			#lista tbody td{
+				cursor: pointer;
+				padding-bottom: 4px;
+				padding-top: 4px;
+			}
+
+			#lista tbody tr:nth-child(2n){
+				background: whitesmoke;
+			}
+
+			#lista thead tr a{
+				font-weight: 500;
+				text-decoration: none;
+			}
+
+			table#lista tbody tr:hover{
+				background-color:  #ececed;
+			}
+
+			.scroll{		
+				height:250px;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				margin-bottom: 10px;
+
+				border-color: #ddd;
+				border-style: solid;
+				border-width: 1px;
+			}
+	</style>
+
+	</head>
+
+	<body ng-controller="controlador" ng-init="init()">
+
+		<div class="container">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
+					<h4>Planificar Comida</h4>
+				</div>
+
+				<div class="panel-footer">
+					<div id="buscador">
+						<table border="0">
+							<tr>
+								<td width="150"></td>
+								
+								<td width="600" ></td>
+
+								<td width="250" class="derecha">
+									<div class="input-group">
+										<span class="input-group-addon derecha">Nombre:</span>
+										<input class="form-control manito" type="text" ng-model="buscar.nombre">
+									</div>
+								</td>
+
+								<td width="100" class="derecha">
+									<input  type="button" value="buscar" class="btn btn-info btn-lg manito" ng-click="clientes_buscar()">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="cuerpo">
+				<div class="scroll" ng-show="recetas.length != 0">
+					<table  id="lista" class="table  table-bordered">
+						<thead>
+							<tr>
+								<th id="nombre" ><p><a href="#">Recetas</a></p></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr class="manito" ng-repeat="receta in recetas | filter:buscar.nombre"  
+							ng-class="{'success':opcion.receta_activa==$index}" 
+							ng-click="seleccionar_receta($index,receta.id)">
+								<td class="centrado">{{receta.nombre}}</td>
+							</tr>							
+						</tbody>
+
+					</table>
+				</div>
+
+				<div class="flotante">
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.desayuno" > Desayuno
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.almuerzo" > Almuerzo
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.merienda" > Merienda
+					</label>
+					<label class="checkbox-inline">
+					  <input type="checkbox" ng-model="comida_tipo_seleccionadas.cena"> Cena
+					</label>
+					<input id="agregar" type="button" class="btn btn-info" value= "Agregar"  
+						ng-click="agregar_comida();"
+						ng-disabled="opcion.receta_activa == -1">
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="cuerpo">
+				<table  id="lista" class="table  table-bordered">
+					<thead>
+						<tr>
+							<th id="comidas" ><p><a href="#">Comida</a></p></th>
+							<th id="comidas" ><p><a href="#">Receta elegida</a></p></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr class="manito" ng-repeat="comida in comidas"  
+						ng-class="{'success':opcion.comida_activa==$index}" 
+						ng-click="seleccionar_comida($index,comida.id)">
+							<td >{{comida.nombre}}</td>
+							<td >{{comida.receta}}</td>
+						</tr>							
+					</tbody>
+
+				</table>
+
+				<div class="flotante">
+					<input id="descartar" type="button" class="btn btn-info" value= "Descartar"  
+						ng-click="quitar_comida();"
+						ng-disabled="opcion.comida_activa == -1">
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
